@@ -5,9 +5,10 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-df = pd.read_csv("")
+df = pd.read_csv("iron_and_steel_country_emissions")
 
-dest = {
+# [nearest port, straightline distance to port, coordinates of port]
+dest = { 
     "Los Angeles": ["Los Angeles", 0],
     "Chicago": ["Chicago", 0],
     "New York": ["New York & New Jersey", 0],
@@ -35,17 +36,21 @@ dest = {
     "Memphis": ["Memphis", 0], 
     "Albuquerque": ["Los Angeles", 787] # example for Array Technologies
 }
+dest_df = pd.DataFrame.from_dict(dest, orient="index", columns=["Port", "Distance_miles"])
 
-dest.df = pd.DataFrame(dest)
+# [companies operating, coordinates of origin port, co2 (ton/ton), steel cost ($/ton), shipping time (days)]
+origin = {}
+origin_df = pd.DataFrame.from_dict(origin, orient="index", columns=[])
 
+def port_to_port():
 
-
-# return satisfactory cities given constraints
+# return satisfactory sources given constraints
 def satisfy(CO2_cap, price_cap, time_cap, steel_type):
-    good_cities = []
-    return good_cities
+    good_src = []
+    return good_src
 
-def weighted_sum(cities, CO2_weight, price_weight):
+#calculate weighted sum 
+def weighted_sum(cities, CO2_weight):
     score = cities["CO2_emissions"] * CO2_weight + cities["price"] * price_weight
     return score
 
@@ -56,12 +61,11 @@ def optimize(CO2_weight, price_weight):
         if 
 
 class InputData(BaseModel):
-    CO2_cap: float
-    price_cap: float
-    time_cap: int 
-    steel_type: int
-    CO2_weiht: float
-    price_weight: float
+    CO2_target: float
+    price_target: float
+   # time_cap: int 
+    steel_type: int #index
+    CO2_weight: float
 
 @app.get("/")
 def root():
@@ -69,7 +73,9 @@ def root():
 
 @app.post("/cities")
 
-@app.post("/routes")
+@app.post("/routes", response_model=dict)
+def get_routes(data: InputData):
+
 
 @app.get("/routes")
 
