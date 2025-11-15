@@ -5,7 +5,9 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-df = pd.read_csv("iron_and_steel_country_emissions")
+raw_df = pd.read_csv("regional_steel_emissions.csv")[["iso3_country", "emissions_quantity"]]
+countries = [""]
+avg_df = raw_df.loc[raw_df["iso3_country"].isin(countries)].groupby("iso3_country").mean()
 
 # [nearest port, straightline distance to port, coordinates of port]
 dest = { 
@@ -38,11 +40,13 @@ dest = {
 }
 dest_df = pd.DataFrame.from_dict(dest, orient="index", columns=["Port", "Distance_miles"])
 
-# [companies operating, coordinates of origin port, co2 (ton/ton), steel cost ($/ton), shipping time (days)]
+# [companies operating, coordinates of origin port, co2 (ton/ton), steel cost ($/ton)]
 origin = {}
 origin_df = pd.DataFrame.from_dict(origin, orient="index", columns=[])
 
+# calculate port to port shipping emissions, cost
 def port_to_port():
+    return
 
 # return satisfactory sources given constraints
 def satisfy(CO2_cap, price_cap, time_cap, steel_type):
@@ -64,7 +68,7 @@ class InputData(BaseModel):
     CO2_target: float
     price_target: float
    # time_cap: int 
-    steel_type: int #index
+   # steel_type: int #index
     CO2_weight: float
 
 @app.get("/")
