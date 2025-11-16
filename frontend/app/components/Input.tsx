@@ -9,8 +9,48 @@ const Input = () => {
       name: "GreenSteel",
     },
   ];
-  
+
   const router = useRouter();
+  const [companyCosts, setCompanyCosts] = useState(0);
+  const [co2emissions, setCo2emissions] = useState(0);
+  const [ratio, setRatio] = useState(0);
+  const [city, setCity] = useState("")
+
+
+  const handleClicked = () => {
+    router.push('?query=clicked')
+    handleSubmit()
+  }
+  
+  
+
+  /*  api pushing stuff*/
+
+
+    const handleSubmit = async () => {
+      const formData = {
+        company_cost: companyCosts,
+        co2_emissions: co2emissions,
+        cost_co2_ratio: ratio,
+        target_city: city
+      };
+      try {
+        const response = await fetch("api route", 
+          {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(formData)
+          }
+        )
+        const result = await response.json();
+        
+      } catch (err: any){
+        console.log(err)
+      }
+    }
+
+
+
  
   return (
     <div className="flex flex-col w-60 h-90 py-5 inset-shadow-sm items-center">
@@ -20,6 +60,7 @@ const Input = () => {
           <label
             htmlFor="visitors"
             className="text-sm font-medium text-heading"
+             
           >
             Target Steel Cost
           </label>
@@ -29,7 +70,9 @@ const Input = () => {
               type="number"
               className="grow"
               placeholder="00.00"
-              id="trailingAndLeadingInput"
+              id="trailingAndLeadingInput1"
+              onChange={(e) => setCompanyCosts(Number(e.target.value))}
+
             />
             <span className="label-text my-auto">Per Ton</span>
           </div>
@@ -47,6 +90,7 @@ const Input = () => {
               className="grow"
               placeholder="00.00"
               id="trailingAndLeadingInput2"
+              onChange={(e) => setCo2emissions(Number(e.target.value))}
             />
             <span className="label-text my-auto">Kg/Steel Ton</span>
           </div>
@@ -68,7 +112,7 @@ const Input = () => {
         </form>
         <button
           className="btn mt-3 btn-primary bg-gray-200"
-          onClick={() => router.push('?query=clicked')}
+          onClick={handleClicked}
         >
           Query
         </button>
