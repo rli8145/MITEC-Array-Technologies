@@ -5,24 +5,30 @@ import SourcesofCarbon from "./SourcesofCarbon";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { refresh } from "next/cache";
 
 const Card = ({}) => {
   const searchParams = useSearchParams();
   const [refreshKey, setRefreshKey] = useState(0);
+  const [backendData, setBackendData] = useState<any>(null);
 
   useEffect(() => {
+    // Load data initially
+    const data = localStorage.getItem("steelData");
+    if (data) {
+      setBackendData(JSON.parse(data));
+    }
+
     const handleUpdate = () => {
-      setRefreshKey((prev) => prev + 1); // This forces re-render
+      setRefreshKey((prev) => prev + 1);
+      const updatedData = localStorage.getItem("steelData");
+      if (updatedData) {
+        setBackendData(JSON.parse(updatedData));
+      }
     };
 
     window.addEventListener("steelDataUpdated", handleUpdate);
     return () => window.removeEventListener("steelDataUpdated", handleUpdate);
   }, []);
-
-  const data = localStorage.getItem("steelData");
-  console.log({ data });
-  const backendData = data ? JSON.parse(data) : null;
 
   const isClicked = searchParams.get("query") === "clicked";
 
@@ -31,9 +37,11 @@ const Card = ({}) => {
   const company1 = backendData?.best_country?.Companies?.[0];
   const company2 = backendData?.best_country?.Companies?.[1];
   const company3 = backendData?.best_country?.Companies?.[2];
-  console.log(backendData?.best_country?.Companies?.[2]);
   const best = backendData?.best_country?.Origin;
-  const countrylist = backendData?.[0];
+  const countrylist = backendData?.valid_countries || [];
+  const country1 = countrylist[0];
+  const country2 = countrylist[1];
+  const country3 = countrylist[2];
 
   return (
     <div key={refreshKey}>
@@ -44,7 +52,7 @@ const Card = ({}) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
-          <div className="border-1 h-[%100] pt-15 pb-250 relative rounded-md">
+          <div className="border-1 h-[100%] pt-15 pb-250 relative rounded-md">
             <div className="top-6 left-6 absolute text-3xl ">
               <h1> Recommended Country: {best} </h1>
             </div>
@@ -70,20 +78,24 @@ const Card = ({}) => {
                     Distance to location
                   </span>
                   <span className="text-base text-gray-600 font-medium">
-                    Sea Distance: {seaDistance ? seaDistance.toFixed(2) : "N/A"}{" "}
-                    Km
+                    Sea Distance: {seaDistance ? seaDistance.toFixed(2) : "N/A"} Km
                   </span>
                   <span className="text-base text-gray-600 font-medium">
-                    Land Distance:{" "}
-                    {landDistance ? landDistance.toFixed(2) : "N/A"} Km
+                    Land Distance: {landDistance ? landDistance.toFixed(2) : "N/A"} Km
                   </span>
                 </div>
-                <div className="flex flex-col space-y-1">
+                <div className="flex flex-col space-y-2">
                   <span className="text-2xl font-bold">
-                    Satisfactory Countries ($)
+                    Alternative Countries
                   </span>
                   <span className="text-base text-gray-600 font-medium">
-                    {countrylist}
+                    {country1}
+                  </span>
+                  <span className="text-base text-gray-600 font-medium">
+                    {country2}
+                  </span>
+                  <span className="text-base text-gray-600 font-medium">
+                    {country3}
                   </span>
                 </div>
               </div>
@@ -91,7 +103,6 @@ const Card = ({}) => {
               <div className="mt-15">
                 <div className="flex px-25">
                   <OverallCostPie data={backendData} />
-                  <div></div>
                   <SourcesofCarbon data={backendData} />
                 </div>
               </div>

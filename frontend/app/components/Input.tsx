@@ -52,7 +52,6 @@ const Input: React.FC<{
       CO2_target: co2emissions,
       CO2_weight: ratio,
       Destination: city,
-      
     };
 
     try {
@@ -82,7 +81,7 @@ const Input: React.FC<{
 
       console.log("Shipping distance:", result.best_country.Sea_distance);
       localStorage.setItem("steelData", JSON.stringify(result));
-      window.dispatchEvent(new Event('steelDataUpdated'));
+      window.dispatchEvent(new Event("steelDataUpdated"));
       router.push("?query=clicked");
       console.log("Full response:", result);
 
@@ -91,7 +90,9 @@ const Input: React.FC<{
         "No countries satisfy the given targets. Please relax your targets and try again."
       ) {
         setErrorCount((prev) => prev + 1);
-        setErrorMessage("No valid countries match your targets. Please adjust.");
+        setErrorMessage(
+          "No valid countries match your targets. Please adjust."
+        );
 
         // Clear after 3 seconds
         setTimeout(() => setErrorMessage(null), 3000);
@@ -179,15 +180,17 @@ const Input: React.FC<{
                 onChange={(e) => setRatio(Number(e.target.value))}
               />
               <div className="-mt-2 flex w-full justify-between mt-1">
-                <span className="text-sm text-gray-600">CO<sub>2</sub></span>
                 <span className="text-sm text-gray-600">Cost</span>
+                <span className="text-sm text-gray-600">
+                  CO<sub>2</sub>
+                </span>
               </div>
             </div>
           </div>
 
           <label className="mb-2 block text-sm text-gray-400 text-heading my-[-10px]">
-            Note: an index of 1.0 represents low cost-high carbon footprint and
-            an index of 0.0 represents high cost-low carbon footprint
+            Note: an index of 0.0 represents low cost-high carbon footprint and
+            an index of 1.0 represents high-cost low carbon footprint
           </label>
 
           <label className="my-0.5 block text-sm font-medium text-heading">
@@ -215,7 +218,6 @@ const Input: React.FC<{
           onClick={async () => {
             await handleSubmit();
             router.push("?query=clicked");
-            
           }}
           suppressHydrationWarning
         >
