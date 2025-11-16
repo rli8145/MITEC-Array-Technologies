@@ -6,7 +6,7 @@ import Image from 'next/image'
 const Sidemenu = () => {
   return (
     <div className='flex flex-col rounded-lg gap-3 items-center'> 
-        <Image className='py-[-30px] mb-8' src='/logoimg.png' width={150} height={150} alt='OptiCO2' />
+        <Image className='py-[-50px] mb-8' src='/logoimg.png' width={150} height={150} alt='OptiCO2' />
         <Link href='/dashboard' className='w-full'>
           <Sidemenuitem src='/dashboard.svg' label='Dashboard' className='hover:text-black transition-colors text-black w-full' />
         </Link>
