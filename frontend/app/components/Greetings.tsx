@@ -2,7 +2,7 @@ import React from 'react'
 
 const Greetings = () => {
   return (
-    <div className='flex items-center justify-between w-full inset-shadow-sm p-4'>
+    <div className='flex items-center justify-between w-full p-4'>
       <div className='flex flex-col'>
         <h1 className='font-bold text-xl'>Hello, CompanyName</h1>
         <p className='text-gray-400'>Let's help you find the ideal steel manufacturer for your company fit.</p>
