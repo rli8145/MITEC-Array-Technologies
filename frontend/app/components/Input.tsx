@@ -74,6 +74,7 @@ const Input = () => {
         </button>
         
       </div>
+    
     </div>
   );
 };
