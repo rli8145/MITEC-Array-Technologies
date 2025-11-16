@@ -24,10 +24,10 @@ export default function PrecipMap() {
       (r) => `${r.City}<br>Cost: $${r.SteelCost}<br>CO2: ${r.CO2Emission}`
     ),
             marker: {
-				color: 'rgba(0, 249, 0, 0.8)',
+				color: 'rgba(255, 199, 0, 0.8)',
 				size: 10,
 				line: {
-				color: 'rgba(0, 132, 0, 1)',
+				color: 'rgba(255, 135, 0, 0.8)',
 				width: 1,}
 				}
           }
