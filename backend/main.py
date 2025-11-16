@@ -92,7 +92,7 @@ final["Costs"] = final.apply(lambda row: row["Costs"]
                              + (0.0025 * row["Sea_distance"], 0.16 * row["Land_distance"]), axis=1)
 final["Carbon"] = final.apply(lambda row: row["Carbon"] 
                               + (0.00008 * row["Sea_distance"], 0.00018 * row["Land_distance"]), axis=1)
-final["Total_carbon"] = final["Carbon"].apply(sum)
+final["Total_carbon"] = final["Carbon"].apply(sum) / 1e6
 final["Total_cost"] = final["Costs"].apply(sum)
 #final = final.set_index(["Origin", "Destination"])
 
