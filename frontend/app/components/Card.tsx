@@ -52,7 +52,7 @@ const Card = ({}) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
-          <div className="border-1 h-[100%] pt-15 pb-250 relative rounded-md">
+          <div className="border-1 h-[100%] pt-15 pb-150 mt-15 relative rounded-md">
             <div className="top-6 left-6 absolute text-3xl ">
               <h1> Recommended Country: {best} </h1>
             </div>
@@ -78,10 +78,10 @@ const Card = ({}) => {
                     Distance to location
                   </span>
                   <span className="text-base text-gray-600 font-medium">
-                    Sea Distance: {seaDistance ? seaDistance.toFixed(2) : "N/A"} Km
+                    Sea Distance: {seaDistance ? `${seaDistance.toFixed(2)} Km` : "N/A"}
                   </span>
                   <span className="text-base text-gray-600 font-medium">
-                    Land Distance: {landDistance ? landDistance.toFixed(2) : "N/A"} Km
+                    Land Distance: {landDistance ? `${landDistance.toFixed(2)} Km` : "N/A"} 
                   </span>
                 </div>
                 <div className="flex flex-col space-y-2">

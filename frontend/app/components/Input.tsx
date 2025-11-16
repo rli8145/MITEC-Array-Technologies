@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import "../../slider.css";
 import { timeStamp } from "console";
@@ -38,6 +38,8 @@ const Input: React.FC<{
     { id: 25, name: "Memphis" },
     { id: 26, name: "Albuquerque" },
   ];
+
+  
 
   const [companyCosts, setCompanyCosts] = useState(0);
   const [co2emissions, setCo2emissions] = useState(0);
@@ -84,6 +86,7 @@ const Input: React.FC<{
       window.dispatchEvent(new Event("steelDataUpdated"));
       router.push("?query=clicked");
       console.log("Full response:", result);
+
 
       if (
         result.detail ===
@@ -213,11 +216,12 @@ const Input: React.FC<{
           </select>
         </form>
 
-        <button
+        <button 
           className="btn mt-3 btn-primary bg-gray-200"
           onClick={async () => {
             await handleSubmit();
             router.push("?query=clicked");
+            
           }}
           suppressHydrationWarning
         >
