@@ -91,7 +91,7 @@ final["Sea_distance"]= final.apply(lambda row:
 final["Costs"] = final.apply(lambda row: row["Costs"] 
                              + (0.0025 * row["Sea_distance"], 0.16 * row["Land_distance"]), axis=1)
 final["Carbon"] = final.apply(lambda row: row["Carbon"] 
-                              + (0.0008 * row["Sea_distance"], 0.0018 * row["Land_distance"]), axis=1)
+                              + (0.00008 * row["Sea_distance"], 0.00018 * row["Land_distance"]), axis=1)
 final["Total_carbon"] = final["Carbon"].apply(sum)
 final["Total_cost"] = final["Costs"].apply(sum)
 #final = final.set_index(["Origin", "Destination"])
@@ -121,7 +121,7 @@ def get_routes(data: InputData):
     
     # Compute weighted score
     valid = valid.copy()
-    valid["score"] = valid["Total_carbon"] * data.CO2_weight + valid["Total_cost"] * (1 - data.CO2_weight)
+    valid["score"] = valid["Total_carbon"] * data.CO2_weight + valid["Total_cost"] * (1 - data.CO2_weight) / 1000
     best = valid.loc[valid["score"].idxmin()]
     
     return {
