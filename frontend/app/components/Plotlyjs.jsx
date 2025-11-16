@@ -28,13 +28,12 @@ export default function PrecipMap() {
               (r) => `${r.City}<br>Cost: $${r.SteelCost}<br>CO2: ${r.CO2Emission}`
             ),
             marker: {
-              color: 'rgba(0, 249, 0, 0.8)',
-              size: 10,
-              line: {
-                color: 'rgba(0, 132, 0, 1)',
-                width: 1,
-              }
-            }
+				color: 'rgba(255, 199, 0, 0.8)',
+				size: 10,
+				line: {
+				color: 'rgba(255, 135, 0, 0.8)',
+				width: 1,}
+				}
           }
         ]);
       });
@@ -59,11 +58,12 @@ export default function PrecipMap() {
           showland: true,
           landcolor: "#f0f0f0",
         },
-        dragmode: false,
         margin: { r: 0, t: 0, l: 0, b: 0 },
-        height: 500,
+        height: 520,
+		width: 1000,
+		dragmode: false,
       }}
-      style={{ width: "100%", height: "500px" }}
+      style={{ width: "100%", height: "100%" }}
       config={{ responsive: true }}
       onClick={handleClick}
     />

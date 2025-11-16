@@ -24,7 +24,7 @@ const Card = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
-          <div className="border-1 h-[%100] pt-15 pb-250 relative">
+          <div className="border-1 h-[%100] pt-15 pb-250 relative rounded-md">
             <div className="top-6 left-6 absolute text-3xl ">
               <h1> Recommended Route: {route} </h1>
             </div>
