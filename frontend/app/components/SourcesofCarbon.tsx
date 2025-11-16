@@ -9,7 +9,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const SourcesofCarbon = () => {
   
-
+  
   const data = {
     labels: ['Methane', 'CO2', 'Tons of H2O used'],
     datasets: [
