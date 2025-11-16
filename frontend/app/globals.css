@@ -4,6 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 @plugin "daisyui" {
   themes: business;
+  
 }
 
 @plugin "tailwindcss-animate";
@@ -46,6 +47,8 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --color-darkpurple: #03020e;
+
 }
 
 h1 {
