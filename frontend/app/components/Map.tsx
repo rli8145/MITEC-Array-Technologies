@@ -6,7 +6,7 @@ const PrecipMapAny = PrecipMap as any;
 
 const Map: React.FC<{ onPointClick?: (txt: string) => void; selectedCity?: string }> = ({ onPointClick, selectedCity }) => {
   return (
-    <div className='flex flex-1 border bg-base'>
+    <div className='flex flex-1 border bg-base rounded-md '>
       <PrecipMapAny onPointClick={onPointClick} selectedCity={selectedCity} />
     </div>
   )

@@ -73,7 +73,7 @@ const Input: React.FC<{
 
 
   return (
-    <div className="flex flex-col w-60 h-130 py-5 p-3 border bg-base items-center">
+    <div className="rounded-md flex flex-col w-60 h-130 py-2 p-3 border bg-base items-center">
       <h1 className="font-bold text-2xl">Inputs</h1>
       <div className="flex flex-col">
         <form className="max-w-sm  space-y-4">
@@ -123,7 +123,7 @@ const Input: React.FC<{
             CO<sub>2</sub>-Cost Tradeoff Ratio
           </label>
           <div className="flex flex-col border-black rounded-md  border-1 rounded-base">
-            <div className="price-range p-4">
+            <div className="price-range p-2">
               <span className="text-sm  cursor-auto hover:cursor-grab ">Index </span>
               <span className="text-sm  cursor-auto hover:cursor-grab" >{ratio}</span>
 
@@ -139,7 +139,7 @@ const Input: React.FC<{
                 
               />
 
-              <div className="-mt-2 flex w-full justify-between">
+              <div className="-mt-2 flex w-full justify-between mt-1">
                 <span className="text-sm text-gray-600">
                   CO<sub>2</sub>
                 </span>

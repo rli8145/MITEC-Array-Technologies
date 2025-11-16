@@ -58,11 +58,12 @@ export default function PrecipMap() {
           showland: true,
           landcolor: "#f0f0f0",
         },
-        dragmode: false,
         margin: { r: 0, t: 0, l: 0, b: 0 },
-        height: 500,
+        height: 520,
+		width: 1000,
+		dragmode: false,
       }}
-      style={{ width: "100%", height: "500px" }}
+      style={{ width: "100%", height: "100%" }}
       config={{ responsive: true }}
       onClick={handleClick}
     />
