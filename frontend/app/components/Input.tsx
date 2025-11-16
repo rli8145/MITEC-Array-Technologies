@@ -1,6 +1,5 @@
 "use client";
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import "../../slider.css";
 
@@ -8,8 +7,7 @@ const Input: React.FC<{
   selectedCity?: string;
   setSelectedCity?: (city: string) => void;
   setQueryResult?: (data: any) => void;
-}> = ({ selectedCity = "", setSelectedCity, setQueryResult  }) => {
-  
+}> = ({ selectedCity = "", setSelectedCity, setQueryResult }) => {
   const router = useRouter();
   const cities = [
     { id: 1, name: "Los Angeles" },
@@ -40,14 +38,12 @@ const Input: React.FC<{
     { id: 26, name: "Albuquerque" },
   ];
 
-
-
-  /* api connection stuff*/
-
   const [companyCosts, setCompanyCosts] = useState(0);
   const [co2emissions, setCo2emissions] = useState(0);
   const [ratio, setRatio] = useState(0);
   const [city, setCity] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [errorCount, setErrorCount] = useState(0);
 
   const handleSubmit = async () => {
     const formData = {
@@ -56,141 +52,123 @@ const Input: React.FC<{
       CO2_weight: ratio,
       Destination: city,
     };
+
     try {
       const response = await fetch("/api/steel", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
+
       const result = await response.json();
       console.log("Full response:", result);
-      
+
+      if (
+        result.detail ===
+        "No countries satisfy the given targets. Please relax your targets and try again."
+      ) {
+        setErrorCount((prev) => prev + 1);
+        setErrorMessage("No valid countries match your targets. Please adjust.");
+
+        // Clear after 3 seconds
+        setTimeout(() => setErrorMessage(null), 3000);
+        return; // stop further execution
+      } else {
+        setErrorCount(0);
+        setErrorMessage(null);
+      }
+
       localStorage.setItem("steelData", JSON.stringify(result));
+      if (setQueryResult) setQueryResult(result.best_country.Origin_port);
+
       router.push("?query=clicked");
-      if (setQueryResult) {
-      setQueryResult(result.best_country.Origin_port);
-      console.log("Result stashed via setQueryResult:", result);
-    
-    }
 
-      // Access the data:
-      console.log("Valid countries:", result.best_country);
-      // ["CHN", "IND", "JPN", "DEU"]
-
-      console.log("Best country code:", result.best_country.Origin);
-      // "CHN"
-
-      console.log("Best companies:", result.best_country.Companies);
-      // ["China Baowu Steel Group", "HBIS Group (Hesteel)", "Shagang Group"]
-
-      console.log("Total cost:", result.best_country.Total_cost);
-      // 770
-
-      console.log("Total carbon:", result.best_country.Total_carbon);
-      // 1202.34
-
-      console.log("Shipping distance:", result.best_country.Sea_distance);
-    } catch (err: any) {
+      console.log("Best country:", result.best_country);
+    } catch (err) {
       console.log(err);
+      setErrorMessage("Something went wrong. Please try again.");
+      setTimeout(() => setErrorMessage(null), 3000);
     }
   };
 
   return (
-    <div className="rounded-md flex flex-col w-60 h-130 py-2 p-3 border bg-base items-center">
+    <div className="relative rounded-md flex flex-col w-60 h-130 py-2 p-3 border bg-base items-center">
+      {/* Error overlay */}
+      {errorMessage && (
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-red-500 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-500">
+          {errorMessage} {errorCount > 1 ? "(Repeated!)" : ""}
+        </div>
+      )}
+
       <h1 className="font-bold text-2xl">Inputs</h1>
       <div className="flex flex-col">
-        <form className="max-w-sm  space-y-4">
-          <label
-            htmlFor="visitors"
-            className="text-sm font-medium text-heading"
-          >
+        <form className="max-w-sm space-y-4">
+          <label className="text-sm font-medium text-heading">
             Target Steel Cost
           </label>
-          <div className="input rounded-md bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base shadow-xs placeholder:text-body">
+          <div className="input rounded-md bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base shadow-xs placeholder:text-body flex items-center">
             <span className="label-text my-auto">$</span>
             <input
               type="number"
               className="grow"
               placeholder="00.00"
-              id="trailingAndLeadingInputilbbby"
               value={companyCosts}
-              onChange={(e) => setCompanyCosts(e.target.value)}
+              onChange={(e) => setCompanyCosts(Number(e.target.value))}
             />
             <span className="label-text my-auto">Per Ton</span>
           </div>
 
-          <label
-            htmlFor="visitors"
-            className="text-sm font-medium text-heading"
-          >
+          <label className="text-sm font-medium text-heading">
             Target CO<sub>2</sub> Emissions
           </label>
-          <div className="input rounded-md bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base shadow-xs placeholder:text-body">
-            <span className="label-text my-auto"></span>
+          <div className="input rounded-md bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base shadow-xs placeholder:text-body flex items-center">
             <input
               type="number"
               className="grow"
               placeholder="00.00"
-              id="trailingAndLeadingInputilby"
               value={co2emissions}
-              onChange={(e) => setCo2emissions(e.target.value)}
+              onChange={(e) => setCo2emissions(Number(e.target.value))}
             />
             <span className="label-text my-auto">
               CO<sub>2</sub> Ton/Steel Ton
             </span>
           </div>
-          <label
-            htmlFor="visitors"
-            className="my-0.5  block text-sm font-medium text-heading "
-          >
+
+          <label className="my-0.5 block text-sm font-medium text-heading">
             CO<sub>2</sub>-Cost Tradeoff Ratio
           </label>
-          <div className="flex flex-col border-black rounded-md  border-1 rounded-base">
+          <div className="flex flex-col border-black rounded-md border-1 rounded-base">
             <div className="price-range p-4">
-              <span className="text-sm  cursor-auto hover:cursor-grab ">
-                Index{" "}
-              </span>
-              <span className="text-sm  cursor-auto hover:cursor-grab">
-                {ratio}
-              </span>
-
+              <span className="text-sm cursor-auto">Index </span>
+              <span className="text-sm cursor-auto">{ratio}</span>
               <input
                 className="w-full accent-black slider"
                 type="range"
                 value={ratio}
-                min="0"
-                max="1.0"
-                step="0.01"
+                min={0}
+                max={1.0}
+                step={0.01}
                 onChange={(e) => setRatio(Number(e.target.value))}
               />
-
               <div className="-mt-2 flex w-full justify-between mt-1">
-                <span className="text-sm text-gray-600">
-                  CO<sub>2</sub>
-                </span>
+                <span className="text-sm text-gray-600">CO<sub>2</sub></span>
                 <span className="text-sm text-gray-600">Cost</span>
               </div>
             </div>
           </div>
-          <label
-            htmlFor="visitors"
-            className="mb-2 block text-sm text-gray-400 text-heading my-[-10px]"
-          >
+
+          <label className="mb-2 block text-sm text-gray-400 text-heading my-[-10px]">
             Note: an index of 1.0 represents low cost-high carbon footprint and
             an index of 0.0 represents high cost-low carbon footprint
           </label>
-          <label
-            htmlFor="visitors"
-            className="my-0.5  block text-sm font-medium text-heading "
-          >
+
+          <label className="my-0.5 block text-sm font-medium text-heading">
             Choose the import city
           </label>
           <select
             id="countries"
             value={city}
-            onChange={(e) => {
-              setCity(e.target.value);
-            }}
+            onChange={(e) => setCity(e.target.value)}
             className="block w-full border-black rounded-md border-1"
           >
             <option value="" disabled>
@@ -203,17 +181,10 @@ const Input: React.FC<{
             ))}
           </select>
         </form>
+
         <button
           className="btn mt-3 btn-primary bg-gray-200"
-          onClick={async () => {
-            // submit first so we update parent state, then navigate
-            try {
-              await handleSubmit();
-              await router.push("?query=clicked");
-            } catch (e) {
-              console.error('Query failed', e);
-            }
-          }}
+          onClick={handleSubmit}
         >
           Query
         </button>
