@@ -9,6 +9,7 @@ app = FastAPI()
 countries = ["CHN", "IND", "JPN", "RUS", "TUR", "BRA", "ITA", "DEU", "GBR"]
 raw = pd.read_csv("regional_steel_emissions.csv")[["iso3_country", "emissions_quantity"]]
 processed = raw.loc[raw["iso3_country"].isin(countries)].groupby("iso3_country").mean() / 1e6
+processed["steel_quantity"] = [1005.1, 149.4, 84.0, 71.0, 36.9, 20.0, 37.2, 4.0] 
 
 # origin DataFrame
 def co2perton(country):
