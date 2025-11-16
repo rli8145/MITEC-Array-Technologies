@@ -4,8 +4,9 @@ import OverallCostPie from "./OverallCostPie";
 import SourcesofCarbon from "./SourcesofCarbon";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-
+import { useRouter} from "next/router";
 const Card = () => {
+  
   const co2 = "co2";
   const methane = "methane";
   const time = "tikme";

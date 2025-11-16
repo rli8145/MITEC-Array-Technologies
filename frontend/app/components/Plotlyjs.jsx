@@ -1,17 +1,21 @@
-
 "use client";
 import { useEffect, useState } from "react";
-import Plot from "react-plotly.js";
 import * as d3 from "d3";
+import dynamic from 'next/dynamic';
 
-const importCity = '';
+// Dynamic import for Plotly - loads only on client side
+const Plot = dynamic(() => import('react-plotly.js'), {
+  ssr: false,
+  loading: () => <div>Loading map...</div>
+});
+
 export default function PrecipMap() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
     d3.csv("/dummydata.csv")
       .then((rows) => {
-		 console.log("CSV loaded:", data);
+        console.log("CSV loaded:", rows);
         const get = (k) => rows.map((r) => Number(r[k]));
 
         setData([
@@ -20,29 +24,30 @@ export default function PrecipMap() {
             mode: "markers",
             lat: get("Lat"),
             lon: get("Lon"),
-           text: rows.map(
-      (r) => `${r.City}<br>Cost: $${r.SteelCost}<br>CO2: ${r.CO2Emission}`
-    ),
+            text: rows.map(
+              (r) => `${r.City}<br>Cost: $${r.SteelCost}<br>CO2: ${r.CO2Emission}`
+            ),
             marker: {
-				color: 'rgba(0, 249, 0, 0.8)',
-				size: 10,
-				line: {
-				color: 'rgba(0, 132, 0, 1)',
-				width: 1,}
-				}
+              color: 'rgba(0, 249, 0, 0.8)',
+              size: 10,
+              line: {
+                color: 'rgba(0, 132, 0, 1)',
+                width: 1,
+              }
+            }
           }
         ]);
       });
   }, []);
 
-  if (!data) return <div>Loading map...</div>;
-
-   const handleClick = (event) => {
+  const handleClick = (event) => {
     if (event.points && event.points.length > 0) {
       const point = event.points[0];
       console.log(`You clicked on ${point.text}`);
     }
   };
+
+  if (!data) return <div>Loading data...</div>;
 
   return (
     <Plot
@@ -54,14 +59,13 @@ export default function PrecipMap() {
           showland: true,
           landcolor: "#f0f0f0",
         },
-		dragmode: false,
+        dragmode: false,
         margin: { r: 0, t: 0, l: 0, b: 0 },
         height: 500,
       }}
       style={{ width: "100%", height: "500px" }}
       config={{ responsive: true }}
-	  onClick={handleClick}
+      onClick={handleClick}
     />
   );
 }
-
