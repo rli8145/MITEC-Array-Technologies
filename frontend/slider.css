@@ -1,0 +1,36 @@
+/* Base slider track */
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Draggable thumb (Chrome/Safari/Edge) */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: black;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.slider::-webkit-slider-thumb:active {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+/* Firefox thumb */
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: black;
+  border: none;
+  border-radius: 50%;
+  cursor: grab;
+}

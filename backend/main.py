@@ -15,15 +15,15 @@ processed["steel_quantity"] = [1005.1, 149.4, 84.0, 71.0, 36.9, 33.8, 20.0, 37.2
 def co2perton(country):
     return processed.loc[country, "emissions_quantity"] / processed.loc[country, "steel_quantity"]
 origin = {
-    "CHN": [["China Baowu Steel Group", "HBIS Group (Hesteel)", "Shagang Group"], (38.97, 117.78), [co2perton("CHN")], [470, 235]],
-    "IND": [["JSW Steel", "Tata Steel", "SAIL (Steel Authority of India)"], (20.25, 86.67), [co2perton("IND")], [600, 300]],
-    "JPN": [["Nippon Steel", "JFE Steel", "Kobe Steel"], (35.63, 139.77), [co2perton("JPN")], [525, 262.5]],
-    "RUS": [["NLMK (Novolipetsk Steel)", "MMK (Magnitogorsk Iron & Steel Works)", "Severstal"], (44.74, 37.78), [co2perton("RUS")], [700, 350]],
-    "TUR": [["Erdemir", "İsdemir", "Tosyali Holding"], (38.42, 27.13), [co2perton("TUR")], [705, 352.5]],
-    "BRA": [["Gerdau", "CSN (Companhia Siderúrgica Nacional)", "Usiminas"], (-23.95, -46.35), [co2perton("BRA")], [650, 325]],
-    "ITA": [["ArcelorMittal Italia", "Thyssenkrupp Acciai Speciali Terni"], (44.40, 8.92), [co2perton("ITA")], [700, 350]],
-    "DEU": [["ThyssenKrupp Steel Europe", "Salzgitter AG", "ArcelorMittal Germany"], (53.55, 10.00), [co2perton("DEU")], [670, 335]],
-    "GBR": [["British Steel", "Celsa Steel UK", "Liberty Steel Group"], (53.65, 0.22), [co2perton("GBR")], [750, 187.5]]
+    "CHN": [("China Baowu Steel Group", "HBIS Group (Hesteel)", "Shagang Group"), (38.97, 117.78), (co2perton("CHN"),), (470, 235)],
+    "IND": [("JSW Steel", "Tata Steel", "SAIL (Steel Authority of India)"), (20.25, 86.67), (co2perton("IND"),), (600, 300)],
+    "JPN": [("Nippon Steel", "JFE Steel", "Kobe Steel"), (35.63, 139.77), (co2perton("JPN"),), (525, 262.5)],
+    "RUS": [("NLMK (Novolipetsk Steel)", "MMK (Magnitogorsk Iron & Steel Works)", "Severstal"), (44.74, 37.78), (co2perton("RUS"),), (700, 350)],
+    "TUR": [("Erdemir", "İsdemir", "Tosyali Holding"), (38.42, 27.13), (co2perton("TUR"),), (705, 352.5)],
+    "BRA": [("Gerdau", "CSN (Companhia Siderúrgica Nacional)", "Usiminas"), (-23.95, -46.35), (co2perton("BRA"),), (650, 325)],
+    "ITA": [("ArcelorMittal Italia", "Thyssenkrupp Acciai Speciali Terni"), (44.40, 8.92), (co2perton("ITA"),), (700, 350)],
+    "DEU": [("ThyssenKrupp Steel Europe", "Salzgitter AG", "ArcelorMittal Germany"), (53.55, 10.00), (co2perton("DEU"),), (670, 335)],
+    "GBR": [("British Steel", "Celsa Steel UK", "Liberty Steel Group"), (53.65, 0.22), (co2perton("GBR"),), (750, 187.5)]
 }
 origin_df = pd.DataFrame.from_dict(origin, 
                                    orient="index", 
@@ -89,12 +89,12 @@ final = o.merge(d, how="cross")
 final["Sea_distance"]= final.apply(lambda row: 
                                    haversine(row["Origin_port"][0], row["Origin_port"][1], row["Dest_port"][0], row["Dest_port"][1]), axis=1)
 final["Costs"] = final.apply(lambda row: row["Costs"] 
-                             + [0.0025 * row["Sea_distance"], 0.16 * row["Land_distance"]], axis=1)
+                             + (0.0025 * row["Sea_distance"], 0.16 * row["Land_distance"]), axis=1)
 final["Carbon"] = final.apply(lambda row: row["Carbon"] 
-                              + [8 * row["Sea_distance"], 18 * row["Land_distance"]], axis=1)
+                              + (8 * row["Sea_distance"], 18 * row["Land_distance"]), axis=1)
 final["Total_carbon"] = final["Carbon"].apply(sum)
 final["Total_cost"] = final["Costs"].apply(sum)
-final = final.set_index(["Origin", "Destination"])
+#final = final.set_index(["Origin", "Destination"])
 
 #*******************************************
 
@@ -106,7 +106,7 @@ class InputData(BaseModel):
 
 @app.get("/")
 def root():
-    return final.to_dict()
+    return final.to_dict(orient="records")
 
 @app.post("/routes")
 def get_routes(data: InputData):
