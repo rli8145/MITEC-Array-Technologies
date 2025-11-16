@@ -1,3 +1,43 @@
+'use client';
+import React, { useEffect, useState } from 'react'
+import PriceRange from './slider';
+
+const cities = [
+   { id: 1, name: "Los Angeles" },
+  { id: 2, name: "Chicago" },
+  { id: 3, name: "New York" },
+  { id: 4, name: "Dallas" },
+  { id: 5, name: "Houston" },
+  { id: 6, name: "Detroit" },
+  { id: 7, name: "Minneapolis" },
+  { id: 8, name: "Boston" },
+  { id: 9, name: "Seattle" },
+  { id: 10, name: "Philadelphia" },
+  { id: 11, name: "San Jose" },
+  { id: 12, name: "Atlanta" },
+  { id: 13, name: "San Francisco" },
+  { id: 14, name: "Cleveland" },
+  { id: 15, name: "Portland" },
+  { id: 16, name: "Milwaukee" },
+  { id: 17, name: "Phoenix" },
+  { id: 18, name: "St. Louis" },
+  { id: 19, name: "Cincinnati" },
+  { id: 20, name: "San Diego" },
+  { id: 21, name: "Grand Rapids" },
+  { id: 22, name: "Indianapolis" },
+  { id: 23, name: "Pittsburgh" },
+  { id: 24, name: "Kansas City" },
+  { id: 25, name: "Memphis" },
+  { id: 26, name: "Albuquerque" }
+];
+
+const Input: React.FC<{ selectedPoint?: string; onSelectCity?: (city: string) => void }> = ({ selectedPoint, onSelectCity }) => {
+    const [selectedCity, setSelectedCity] = useState( selectedPoint ?? "" ); 
+
+    useEffect(() => {
+      if (selectedPoint) setSelectedCity(selectedPoint);
+    }, [selectedPoint]);
+    
 "use client";
 import React from "react";
 import { useState } from "react";
