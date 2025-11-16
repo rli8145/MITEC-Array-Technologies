@@ -7,7 +7,9 @@ import "../../slider.css";
 const Input: React.FC<{
   selectedCity?: string;
   setSelectedCity?: (city: string) => void;
-}> = ({ selectedCity = "", setSelectedCity }) => {
+  setQueryResult?: (data: any) => void;
+}> = ({ selectedCity = "", setSelectedCity, setQueryResult  }) => {
+  
   const router = useRouter();
   const cities = [
     { id: 1, name: "Los Angeles" },
@@ -38,6 +40,8 @@ const Input: React.FC<{
     { id: 26, name: "Albuquerque" },
   ];
 
+
+
   /* api connection stuff*/
 
   const [companyCosts, setCompanyCosts] = useState(0);
@@ -60,11 +64,17 @@ const Input: React.FC<{
       });
       const result = await response.json();
       console.log("Full response:", result);
+      
       localStorage.setItem("steelData", JSON.stringify(result));
       router.push("?query=clicked");
+      if (setQueryResult) {
+      setQueryResult(result.best_country.Origin_port);
+      console.log("Result stashed via setQueryResult:", result);
+    
+    }
 
       // Access the data:
-      console.log("Valid countries:", result.valid_countries);
+      console.log("Valid countries:", result.best_country);
       // ["CHN", "IND", "JPN", "DEU"]
 
       console.log("Best country code:", result.best_country.Origin);
@@ -116,14 +126,14 @@ const Input: React.FC<{
             Target CO<sub>2</sub> Emissions
           </label>
           <div className="input rounded-md bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base shadow-xs placeholder:text-body">
-            <span className="label-text my-auto">$</span>
+            <span className="label-text my-auto"></span>
             <input
               type="number"
               className="grow"
               placeholder="00.00"
-              id="trailingAneeewdLeadingInputilby"
+              id="trailingAndLeadingInputilby"
               value={co2emissions}
-              onChange={(e) => setCo2emissions(Number(e.target.value))}
+              onChange={(e) => setCo2emissions(e.target.value)}
             />
             <span className="label-text my-auto">
               CO<sub>2</sub> Ton/Steel Ton
@@ -196,8 +206,13 @@ const Input: React.FC<{
         <button
           className="btn mt-3 btn-primary bg-gray-200"
           onClick={async () => {
-            await router.push("?query=clicked");
-            handleSubmit();
+            // submit first so we update parent state, then navigate
+            try {
+              await handleSubmit();
+              await router.push("?query=clicked");
+            } catch (e) {
+              console.error('Query failed', e);
+            }
           }}
         >
           Query

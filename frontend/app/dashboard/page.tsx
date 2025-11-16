@@ -9,6 +9,8 @@ import { useState } from "react";
 
 export default function Home() {
   const [selectedCity, setSelectedCity] = useState("");
+    const [queryResult, setQueryResult] = useState(null);
+
 
   return (
     <div className="flex gap-10 py-5 px-7 bg-base-100">
@@ -17,8 +19,8 @@ export default function Home() {
         <Greetings />
         <div className="flex flex-row gap-2">
           <>
-          <Input selectedCity={selectedCity} setSelectedCity={setSelectedCity}/>
-          <Map selectedCity={selectedCity} />
+          <Input selectedCity={selectedCity} setSelectedCity={setSelectedCity} setQueryResult={setQueryResult}/>
+          <Map selectedCity={selectedCity} queryResult={queryResult}/>
           </>
         </div>
 
