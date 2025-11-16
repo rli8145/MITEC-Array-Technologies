@@ -1,4 +1,4 @@
-fastapi
-pandas
-numpy
-pydantic
+fastapi==0.109.2
+uvicorn[standard]==0.23.2
+pandas==2.1.1
+pydantic==2.6.0

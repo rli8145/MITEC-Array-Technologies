@@ -1,5 +1,6 @@
-"use client";
-import React from "react";
+'use client';
+import React from 'react'
+import PriceRange from './slider';
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
 const Input = () => {
@@ -53,9 +54,10 @@ const Input = () => {
 
  
   return (
-    <div className="flex flex-col w-60 h-90 py-5 inset-shadow-sm items-center">
-      <h1 className="font-bold text-2xl">Inputs</h1>
-      <div className="flex flex-col">
+    <div className='flex flex-col w-60 h-130 py-5 p-3 border bg-base items-center'>
+      <h1 className='font-bold text-2xl'>Inputs</h1>
+      <div className='flex flex-col'>
+    
         <form className="max-w-sm  space-y-4">
           <label
             htmlFor="visitors"
@@ -117,10 +119,19 @@ const Input = () => {
           Query
         </button>
         
-      </div>
-    
-    </div>
-  );
-};
+        onChange={(e) => { setSelectedCity?.(e.target.value); }}
+        className="block w-full border-black rounded-md border-1">
+          <option value="" disabled>Select a city</option>
+          {cities.map((city) => (
+          <option key={city.id} value={city.name}>{city.name}</option>))}
+      </select>
 
-export default Input;
+        </form>
+        <h1 className='btn mt-3 btn-primary bg-gray-200'>Query</h1>
+      </div>
+    </div>
+
+  )
+}
+
+export default Input

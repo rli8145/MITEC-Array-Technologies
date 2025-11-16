@@ -1,9 +1,10 @@
-"use client";
 
+"use client";
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import * as d3 from "d3";
 
+const importCity = '';
 export default function PrecipMap() {
   const [data, setData] = useState(null);
 
@@ -20,7 +21,7 @@ export default function PrecipMap() {
             lat: get("Lat"),
             lon: get("Lon"),
            text: rows.map(
-      (r) => `${r.Country}<br>Cost: $${r.SteelCost}<br>CO2: ${r.CO2Emission}`
+      (r) => `${r.City}<br>Cost: $${r.SteelCost}<br>CO2: ${r.CO2Emission}`
     ),
             marker: {
 				color: 'rgba(0, 249, 0, 0.8)',
@@ -63,3 +64,4 @@ export default function PrecipMap() {
     />
   );
 }
+

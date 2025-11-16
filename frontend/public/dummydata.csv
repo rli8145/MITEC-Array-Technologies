@@ -1,11 +1,27 @@
-Country,Lat,Lon,SteelCost,CO2Emission
-USA,38.0,-97.0,500,2.3
-China,35.0,103.0,400,3.5
-India,21.0,78.0,450,2.8
-Germany,51.0,10.0,550,1.9
-Brazil,-10.0,-55.0,470,2.6
-Russia,61.0,105.0,430,3.0
-Japan,36.0,138.0,520,2.1
-South Korea,36.5,127.5,510,2.2
-Australia,-25.0,133.0,480,2.5
-Canada,56.0,-106.0,495,2.4
+City,Lat,Lon
+Los Angeles,33.74,-118.27
+Chicago,41.89,-87.61
+New York,40.67,-74.04
+Dallas,29.73,-95.27
+Houston,29.73,-95.27
+Detroit,42.33,-83.04
+Minneapolis,46.78,-92.11
+Boston,42.37,-71.04
+Seattle,47.61,-122.35
+Philadelphia,39.95,-75.16
+San Jose,37.80,-122.29
+Atlanta,32.10,-81.10
+San Francisco,37.80,-122.29
+Cleveland,41.48,-81.67
+Portland,43.66,-70.25
+Milwaukee,43.07,-87.96
+Phoenix,33.74,-118.27
+St. Louis,38.62,-90.20
+Cincinnati,39.10,-84.54
+San Diego,32.83,-117.12
+Grand Rapids,42.33,-83.04
+Indianapolis,40.67,-74.04
+Pittsburgh,40.44,-79.98
+Kansas City,39.12,-94.55
+Memphis,35.10,-90.10
+Albuquerque,33.74,-118.27
