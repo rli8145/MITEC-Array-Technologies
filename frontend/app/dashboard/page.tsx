@@ -11,7 +11,7 @@ export default function Home() {
   const [selectedCity, setSelectedCity] = useState("");
 
   return (
-    <div className="flex gap-10 py-5 px-7 bg-base-100">
+    <div className="flex gap-10 py-5 px-7 bg-base-100" suppressHydrationWarning={true}>
       <Sidemenu />
       <div className="flex flex-col gap-2 flex-1">
         <Greetings />

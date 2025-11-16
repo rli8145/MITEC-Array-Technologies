@@ -3,6 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import "../../slider.css";
+import { timeStamp } from "console";
 
 const Input: React.FC<{
   selectedCity?: string;
@@ -48,9 +49,10 @@ const Input: React.FC<{
   const handleSubmit = async () => {
     const formData = {
       price_target: companyCosts,
-      CO2_target: co2emissions * 100000,
+      CO2_target: co2emissions,
       CO2_weight: ratio,
       Destination: city,
+      
     };
     try {
       const response = await fetch("/api/steel", {
@@ -59,11 +61,8 @@ const Input: React.FC<{
         body: JSON.stringify(formData),
       });
       const result = await response.json();
-      console.log("Full response:", result);
-      localStorage.setItem("steelData", JSON.stringify(result));
-      router.push("?query=clicked");
 
-      // Access the data:
+      console.log("Full response:", result);
       console.log("Valid countries:", result.valid_countries);
       // ["CHN", "IND", "JPN", "DEU"]
 
@@ -80,6 +79,9 @@ const Input: React.FC<{
       // 1202.34
 
       console.log("Shipping distance:", result.best_country.Sea_distance);
+      localStorage.setItem("steelData", JSON.stringify(result));
+      window.dispatchEvent(new Event('steelDataUpdated'));
+      router.push("?query=clicked");
     } catch (err: any) {
       console.log(err);
     }
@@ -97,8 +99,11 @@ const Input: React.FC<{
             Target Steel Cost
           </label>
           <div className="input rounded-md bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base shadow-xs placeholder:text-body">
-            <span className="label-text my-auto">$</span>
+            <span className="label-text my-auto" id="teserseres">
+              $
+            </span>
             <input
+              suppressHydrationWarning
               type="number"
               className="grow"
               placeholder="00.00"
@@ -118,6 +123,7 @@ const Input: React.FC<{
           <div className="input rounded-md bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base shadow-xs placeholder:text-body">
             <span className="label-text my-auto">$</span>
             <input
+              suppressHydrationWarning
               type="number"
               className="grow"
               placeholder="00.00"
@@ -145,6 +151,7 @@ const Input: React.FC<{
               </span>
 
               <input
+                suppressHydrationWarning
                 className="w-full accent-black slider"
                 type="range"
                 value={ratio}
@@ -196,9 +203,11 @@ const Input: React.FC<{
         <button
           className="btn mt-3 btn-primary bg-gray-200"
           onClick={async () => {
-            await router.push("?query=clicked");
-            handleSubmit();
+            await handleSubmit();
+            router.push("?query=clicked");
+            
           }}
+          suppressHydrationWarning
         >
           Query
         </button>
