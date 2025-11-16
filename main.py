@@ -121,7 +121,7 @@ def get_routes(data: InputData):
     
     # Compute weighted score
     valid = valid.copy()
-    valid["score"] = valid["Total_carbon"] * data.CO2_weight + valid["Total_cost"] * (1 - data.CO2_weight)
+    valid["score"] = valid["Total_carbon"] * data.CO2_weight + valid["Total_cost"] * (1 - data.CO2_weight) / 1000
     best = valid.loc[valid["score"].idxmin()]
     
     return {
