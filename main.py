@@ -87,7 +87,7 @@ d = dest_df.reset_index().rename(columns={"index": "Destination"})
 final = o.merge(d, how="cross")
 
 final["Sea_distance"]= final.apply(lambda row: 
-                                   haversine(row["Origin_port"][0], row["Origin_port"][1], row["Port"][0], row["Port"][1]), axis=1)
+                                   haversine(row["Origin_port"][0], row["Origin_port"][1], row["Dest_port"][0], row["Dest_port"][1]), axis=1)
 final["Costs"] = final.apply(lambda row: row["Costs"] 
                              + [0.0025 * row["Sea_distance"], 0.16 * row["Land_distance"]], axis=1)
 final["Carbon"] = final.apply(lambda row: row["Carbon"] 
@@ -103,6 +103,10 @@ class InputData(BaseModel):
     CO2_target: float
     price_target: float
     CO2_weight: float
+
+@app.get("/")
+def root():
+    return final.to_dict()
 
 @app.post("/routes")
 def get_routes(data: InputData):
