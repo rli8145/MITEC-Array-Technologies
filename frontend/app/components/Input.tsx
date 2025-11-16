@@ -64,11 +64,17 @@ const Input: React.FC<{
       });
       const result = await response.json();
       console.log("Full response:", result);
+      
       localStorage.setItem("steelData", JSON.stringify(result));
       router.push("?query=clicked");
+      if (setQueryResult) {
+      setQueryResult(result.best_country.Origin_port);
+      console.log("Result stashed via setQueryResult:", result);
+    
+    }
 
       // Access the data:
-      console.log("Valid countries:", result.valid_countries);
+      console.log("Valid countries:", result.best_country);
       // ["CHN", "IND", "JPN", "DEU"]
 
       console.log("Best country code:", result.best_country.Origin);
