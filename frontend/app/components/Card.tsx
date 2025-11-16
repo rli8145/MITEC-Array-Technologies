@@ -5,7 +5,7 @@ import SourcesofCarbon from "./SourcesofCarbon";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { useRouter} from "next/router";
-const Card = () => {
+const Card = ({}) => {
   
   const co2 = "co2";
   const methane = "methane";
@@ -16,9 +16,11 @@ const Card = () => {
 
   const searchParams = useSearchParams();
   const isClicked = searchParams.get("query") === "clicked";
+  const dataString = typeof window !== 'undefined' ? localStorage.getItem('steelData') : null;
+  const backendData = dataString ? JSON.parse(dataString) : null;
   return (
     <div>
-      {isClicked && (
+      {isClicked && backendData && (
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
@@ -62,9 +64,9 @@ const Card = () => {
 
               <div className="mt-15">
                 <div className="flex px-25">
-                  <OverallCostPie />
+                  <OverallCostPie data={backendData}/>
                   <div></div>
-                  <SourcesofCarbon />
+                  <SourcesofCarbon data={backendData}/>
                 </div>
               </div>
             </div>

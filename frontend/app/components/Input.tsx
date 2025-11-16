@@ -52,7 +52,7 @@ const Input: React.FC<{
   const handleSubmit = async () => {
     const formData = {
       price_target: companyCosts,
-      CO2_target: co2emissions,
+      CO2_target: co2emissions * 100000,
       CO2_weight: ratio,
       Destination: city,
     };
@@ -64,11 +64,10 @@ const Input: React.FC<{
       });
       const result = await response.json();
       console.log("Full response:", result);
-      if (setQueryResult) {
-        setQueryResult(result);
-        console.log('Input setQueryResult called with:', result);
-      }
-      return result;
+      localStorage.setItem("steelData", JSON.stringify(result));
+      router.push("?query=clicked");
+
+      // Access the data:
       console.log("Valid countries:", result.valid_countries);
       // ["CHN", "IND", "JPN", "DEU"]
 
@@ -147,7 +146,7 @@ const Input: React.FC<{
               </span>
               <span className="text-sm  cursor-auto hover:cursor-grab">
                 {ratio}
-              </span>   
+              </span>
 
               <input
                 className="w-full accent-black slider"
