@@ -58,6 +58,43 @@ h1 {
   font-style: normal;
 }
 
+/* Remove default appearance */
+.slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: #ddd;
+  border-radius: 4px;
+}
+
+/* Thumb (the draggable handle) */
+.slider-thumb::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: black;
+  border-radius: 50%;
+  cursor: grab;
+  transition: transform 0.15s ease;
+}
+
+.slider-thumb::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  transform: scale(1.1);
+}
+
+/* Firefox support */
+.slider-thumb::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: black;
+  border: none;
+  border-radius: 50%;
+  cursor: grab;
+}
+
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);

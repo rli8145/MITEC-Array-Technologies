@@ -2,6 +2,7 @@
 import React from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import '../../slider.css'
 
 const Input: React.FC<{
   selectedCity?: string;
@@ -37,6 +38,39 @@ const Input: React.FC<{
     { id: 26, name: "Albuquerque" },
   ];
   const [value, setValue] = useState(1.0);
+/* api connection stuff*/
+
+
+
+  const [companyCosts, setCompanyCosts] = useState(0);
+  const [co2emissions, setCo2emissions] = useState(0);
+  const [ratio, setRatio] = useState(0);
+  const [city, setCity] = useState("")
+
+
+  const handleSubmit = async () => {
+      const formData = {
+        company_cost: companyCosts,
+        co2_emissions: co2emissions,
+        cost_co2_ratio: ratio,
+        target_city: city
+      };
+      try {
+        const response = await fetch("https://mitec-array-technologies-api.onrender.com/", 
+          {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(formData)
+          }
+        )
+        const result = await response.json();
+
+      } catch (err: any){
+        console.log(err)
+      }
+
+    }
+
 
   return (
     <div className="flex flex-col w-60 h-130 py-5 p-3 border bg-base items-center">
@@ -55,7 +89,9 @@ const Input: React.FC<{
               type="number"
               className="grow"
               placeholder="00.00"
-              id="trailingAndLeadingInput"
+              id="trailingAndLeadingInputilbbby"
+              value ={value}
+              onChange={(e) => setCompanyCosts(Number(e.target.value))}
             />
             <span className="label-text my-auto">Per Ton</span>
           </div>
@@ -72,7 +108,9 @@ const Input: React.FC<{
               type="number"
               className="grow"
               placeholder="00.00"
-              id="trailingAndLeadingInput"
+              id="trailingAndLeadingInputilby"
+              value ={value}
+              onChange={(e) => setCo2emissions(Number(e.target.value))}
             />
             <span className="label-text my-auto">
               CO<sub>2</sub> Ton/Steel Ton
@@ -86,17 +124,19 @@ const Input: React.FC<{
           </label>
           <div className="flex flex-col border-black rounded-md  border-1 rounded-base">
             <div className="price-range p-4">
-              <span className="text-sm">Index </span>
-              <span className="text-sm">{value}</span>
+              <span className="text-sm  cursor-auto hover:cursor-grab ">Index </span>
+              <span className="text-sm  cursor-auto hover:cursor-grab" >{ratio}</span>
 
               <input
-                className="w-full accent-black"
+                className="w-full accent-black slider"
                 type="range"
-                value={value}
+                value={ratio}
                 min="0"
                 max="1.0"
                 step="0.01"
-                onChange={(e) => setValue(e.target.value)}
+                onChange={(e) => setRatio(Number(e.target.value))}
+                
+                
               />
 
               <div className="-mt-2 flex w-full justify-between">
@@ -140,8 +180,11 @@ const Input: React.FC<{
         </form>
         <button
           className="btn mt-3 btn-primary bg-gray-200"
-          onClick={() => router.push("?query=clicked")}
-        >
+          onClick={async () => { 
+            await router.push("?query=clicked");
+            handleSubmit();
+          }}
+>
           Query
         </button>
       </div>
