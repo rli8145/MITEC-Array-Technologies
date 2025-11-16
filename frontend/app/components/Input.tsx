@@ -2,7 +2,7 @@
 import React from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import '../../slider.css'
+import "../../slider.css";
 
 const Input: React.FC<{
   selectedCity?: string;
@@ -37,40 +37,51 @@ const Input: React.FC<{
     { id: 25, name: "Memphis" },
     { id: 26, name: "Albuquerque" },
   ];
-  const [value, setValue] = useState(1.0);
-/* api connection stuff*/
 
-
+  /* api connection stuff*/
 
   const [companyCosts, setCompanyCosts] = useState(0);
   const [co2emissions, setCo2emissions] = useState(0);
   const [ratio, setRatio] = useState(0);
-  const [city, setCity] = useState("")
-
+  const [city, setCity] = useState("");
 
   const handleSubmit = async () => {
-      const formData = {
-        company_cost: companyCosts,
-        co2_emissions: co2emissions,
-        cost_co2_ratio: ratio,
-        target_city: city
-      };
-      try {
-        const response = await fetch("https://mitec-array-technologies-api.onrender.com/", 
-          {
-            method: "POST",
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(formData)
-          }
-        )
-        const result = await response.json();
+    const formData = {
+      price_target: companyCosts,
+      CO2_target: co2emissions,
+      CO2_weight: ratio,
+      Destination: city,
+    };
+    try {
+      const response = await fetch("/api/steel", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const result = await response.json();
+      console.log("Full response:", result);
 
-      } catch (err: any){
-        console.log(err)
-      }
+      // Access the data:
+      console.log("Valid countries:", result.valid_countries);
+      // ["CHN", "IND", "JPN", "DEU"]
 
+      console.log("Best country code:", result.best_country.Origin);
+      // "CHN"
+
+      console.log("Best companies:", result.best_country.Companies);
+      // ["China Baowu Steel Group", "HBIS Group (Hesteel)", "Shagang Group"]
+
+      console.log("Total cost:", result.best_country.Total_cost);
+      // 770
+
+      console.log("Total carbon:", result.best_country.Total_carbon);
+      // 1202.34
+
+      console.log("Shipping distance:", result.best_country.Sea_distance);
+    } catch (err: any) {
+      console.log(err);
     }
-
+  };
 
   return (
     <div className="flex flex-col w-60 h-130 py-5 p-3 border bg-base items-center">
@@ -90,8 +101,8 @@ const Input: React.FC<{
               className="grow"
               placeholder="00.00"
               id="trailingAndLeadingInputilbbby"
-              value ={value}
-              onChange={(e) => setCompanyCosts(Number(e.target.value))}
+              value={companyCosts}
+              onChange={(e) => setCompanyCosts(e.target.value)}
             />
             <span className="label-text my-auto">Per Ton</span>
           </div>
@@ -108,8 +119,8 @@ const Input: React.FC<{
               type="number"
               className="grow"
               placeholder="00.00"
-              id="trailingAndLeadingInputilby"
-              value ={value}
+              id="trailingAneeewdLeadingInputilby"
+              value={co2emissions}
               onChange={(e) => setCo2emissions(Number(e.target.value))}
             />
             <span className="label-text my-auto">
@@ -124,8 +135,12 @@ const Input: React.FC<{
           </label>
           <div className="flex flex-col border-black rounded-md  border-1 rounded-base">
             <div className="price-range p-4">
-              <span className="text-sm  cursor-auto hover:cursor-grab ">Index </span>
-              <span className="text-sm  cursor-auto hover:cursor-grab" >{ratio}</span>
+              <span className="text-sm  cursor-auto hover:cursor-grab ">
+                Index{" "}
+              </span>
+              <span className="text-sm  cursor-auto hover:cursor-grab">
+                {ratio}
+              </span>
 
               <input
                 className="w-full accent-black slider"
@@ -135,8 +150,6 @@ const Input: React.FC<{
                 max="1.0"
                 step="0.01"
                 onChange={(e) => setRatio(Number(e.target.value))}
-                
-                
               />
 
               <div className="-mt-2 flex w-full justify-between">
@@ -162,9 +175,9 @@ const Input: React.FC<{
           </label>
           <select
             id="countries"
-            value={selectedCity}
+            value={city}
             onChange={(e) => {
-              setSelectedCity?.(e.target.value);
+              setCity(e.target.value);
             }}
             className="block w-full border-black rounded-md border-1"
           >
@@ -180,11 +193,11 @@ const Input: React.FC<{
         </form>
         <button
           className="btn mt-3 btn-primary bg-gray-200"
-          onClick={async () => { 
+          onClick={async () => {
             await router.push("?query=clicked");
             handleSubmit();
           }}
->
+        >
           Query
         </button>
       </div>
