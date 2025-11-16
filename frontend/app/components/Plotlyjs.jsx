@@ -9,15 +9,15 @@ const Plot = dynamic(() => import('react-plotly.js'), {
   loading: () => <div>Loading map...</div>
 });
 
-export default function PrecipMap() {
+export default function PrecipMap({queryResult}) {
   const [data, setData] = useState(null);
 
   useEffect(() => {
     d3.csv("/dummydata.csv")
       .then((rows) => {
         console.log("CSV loaded:", rows);
+		console.log(queryResult)
         const get = (k) => rows.map((r) => Number(r[k]));
-
         setData([
           {
             type: "scattergeo",
