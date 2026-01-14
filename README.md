@@ -1,15 +1,52 @@
 # MITEC-Array-Technologies
-MITEC Hackathon 2025
+MITEC Hackathon 2025 project for Array Technologies.
 
-Array Technologies Prompt:  
+## Prompt
 Create a tool addressing tradeoffs between cost and carbon emissions in the steel supply chain.
 
-run npm install in /frontend to install all dependencies  
-npm run dev in /frontend and navigate to /dashboard to run app locally  
+## Demo
+https://drive.google.com/file/d/1ZzVplA4S4UbGyp0RlM4eqVAM4ZaH25QT/view?usp=drive_link
 
-Demo: https://drive.google.com/file/d/1ZzVplA4S4UbGyp0RlM4eqVAM4ZaH25QT/view?usp=drive_link
+## What this project does
+- Combines production emissions with estimated shipping and land transport costs.
+- Filters viable origin countries based on user-inputted carbon and price targets.
+- Returns the best route based on a weighted CO2 vs. cost score.
+- Visualizes the results in a Next.js dashboard.
 
-Sources:  
-https://worldsteel.org/data/world-steel-in-figures/world-steel-in-figures-2025/  
-https://climatetrace.org/data (see "regional_steel_emissions.csv")  
-http://steelbenchmarker.com/history.pdf  
+## Tech stack
+- Frontend: Next.js + React, Chart.js, D3, Plotly
+- Backend: FastAPI + Pandas + Plotly
+
+## Repo structure
+- `frontend`: Next.js app and dashboard UI
+- `main.py`: FastAPI API for route scoring and filtering
+- `OptiCO2_pitch.pdf`: pitch deck
+
+## Getting started
+### Backend (FastAPI)
+1) Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+2) Add `regional_steel_emissions.csv` to the repo root (see Sources).
+3) Run the API:
+```bash
+uvicorn main:app --reload
+```
+
+### Frontend (Next.js)
+1) Install dependencies:
+```bash
+cd frontend
+npm install
+```
+2) Start the dev server:
+```bash
+npm run dev
+```
+3) Open `http://localhost:3000/dashboard`.
+
+## Sources
+- https://worldsteel.org/data/world-steel-in-figures/world-steel-in-figures-2025/
+- https://climatetrace.org/data (see `regional_steel_emissions.csv`)
+- http://steelbenchmarker.com/history.pdf
