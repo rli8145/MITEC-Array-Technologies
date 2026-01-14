@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 import pandas as pd
+import numpy as np
 from pydantic import BaseModel
 import math
 
