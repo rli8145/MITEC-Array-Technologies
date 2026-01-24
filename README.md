@@ -19,18 +19,45 @@ https://drive.google.com/file/d/1ZzVplA4S4UbGyp0RlM4eqVAM4ZaH25QT/view?usp=drive
 
 ## Repo structure
 - `frontend`: Next.js app and dashboard UI
-- `main.py`: FastAPI API for route scoring and filtering
+- `backend`: FastAPI API for route scoring and filtering
 - `OptiCO2_pitch.pdf`: pitch deck
+
+Diagram:
+```text
+.
+├── backend
+│   ├── __pycache__
+│   ├── api_link.txt
+│   ├── main.py
+│   ├── main.pynb
+│   ├── requirements.txt
+│   └── runtime.txt
+├── frontend
+│   ├── app
+│   ├── components
+│   ├── lib
+│   ├── public
+│   ├── README.md
+│   ├── filter.js
+│   ├── package.json
+│   └── ... (Next.js config files)
+├── OptiCO2_pitch.pdf
+├── README.md
+├── package.json
+└── package-lock.json
+```
 
 ## Getting started
 ### Backend (FastAPI)
 1) Install dependencies:
 ```bash
+cd backend
 pip install -r requirements.txt
 ```
 2) Add `regional_steel_emissions.csv` to the repo root (see Sources).
 3) Run the API:
 ```bash
+cd backend
 uvicorn main:app --reload
 ```
 
