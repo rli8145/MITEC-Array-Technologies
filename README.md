@@ -17,12 +17,11 @@ https://drive.google.com/file/d/1ZzVplA4S4UbGyp0RlM4eqVAM4ZaH25QT/view?usp=drive
 - Frontend: Next.js + React, Chart.js, D3, Plotly
 - Backend: FastAPI + Pandas + Plotly
 
-## Repo structure
+## Project Structure
 - `frontend`: Next.js app and dashboard UI
 - `backend`: FastAPI API for route scoring and filtering
 - `OptiCO2_pitch.pdf`: pitch deck
 
-Diagram:
 ```text
 .
 ├── backend
@@ -48,7 +47,7 @@ Diagram:
 ```
 
 ## Getting started
-### Backend (FastAPI)
+### Backend
 1) Install dependencies:
 ```bash
 cd backend
@@ -61,7 +60,7 @@ cd backend
 uvicorn main:app --reload
 ```
 
-### Frontend (Next.js)
+### Frontend
 1) Install dependencies:
 ```bash
 cd frontend
