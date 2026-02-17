@@ -119,7 +119,7 @@ const Input: React.FC<{
   };
 
   return (
-    <div className="relative rounded-md flex flex-col w-60 h-130 py-2 p-3 border bg-base items-center">
+    <div className="relative rounded-md flex flex-col w-60 py-2 p-3 border bg-base items-center overflow-y-auto">
       {/* Error overlay */}
       {errorMessage && (
         <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-red-500 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-500">

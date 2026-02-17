@@ -39,9 +39,7 @@ https://drive.google.com/file/d/1ZzVplA4S4UbGyp0RlM4eqVAM4ZaH25QT/view?usp=drive
 │   ├── package.json
 │   └── ... (Next.js config files)
 ├── OptiCO2_pitch.pdf
-├── README.md
-├── package.json
-└── package-lock.json
+└── README.md
 ```
 
 ## Getting started

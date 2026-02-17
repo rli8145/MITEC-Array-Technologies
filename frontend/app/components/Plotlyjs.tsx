@@ -68,8 +68,7 @@ export default function PrecipMap({ queryResult }: PrecipMapProps) {
           landcolor: "#f0f0f0",
         },
         margin: { r: 0, t: 0, l: 0, b: 0 },
-        height: 520,
-        width: 1000,
+        autosize: true,
         dragmode: false,
         showlegend: false, 
       }}
