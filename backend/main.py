@@ -131,3 +131,7 @@ def get_routes(data: InputData):
         "valid_countries": valid.reset_index()["Origin"].tolist(),
         "best_country": best.to_dict()
     }
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

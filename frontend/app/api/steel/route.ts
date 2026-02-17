@@ -5,7 +5,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const res = await fetch(
-      "https://mitec-array-technologies-6.onrender.com/routes",
+      "http://localhost:8000/routes",
       {
         method: "POST",
         headers: {

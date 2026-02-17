@@ -26,11 +26,9 @@ https://drive.google.com/file/d/1ZzVplA4S4UbGyp0RlM4eqVAM4ZaH25QT/view?usp=drive
 .
 ├── backend
 │   ├── __pycache__
-│   ├── api_link.txt
 │   ├── main.py
 │   ├── main.pynb
-│   ├── requirements.txt
-│   └── runtime.txt
+│   └── requirements.txt
 ├── frontend
 │   ├── app
 │   ├── components
@@ -54,10 +52,14 @@ cd backend
 pip install -r requirements.txt
 ```
 2) Add `regional_steel_emissions.csv` to the repo root (see Sources).
-3) Run the API:
+3) Run the API (starts on `http://localhost:8000`):
 ```bash
 cd backend
-uvicorn main:app --reload
+python main.py
+```
+Or equivalently:
+```bash
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 ### Frontend
