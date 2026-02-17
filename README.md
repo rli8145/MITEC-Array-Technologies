@@ -1,5 +1,5 @@
 # MITEC-Array-Technologies
-MITEC Hackathon 2025 project for Array Technologies.
+MIT Energy and Climate Hackathon 2025 - project for Array Technologies.
 
 ## Prompt
 Create a tool addressing tradeoffs between cost and carbon emissions in the steel supply chain.
